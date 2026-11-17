@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <meta name="theme-color" content="#061525"><meta name="description" content="Roteiro prático de anatomia com imagens, arquivos e exportação PDF sem cortes">
+ <title>ANATOMIA IMMERSIVE 3D | Roteiro Genital Masculino</title>
+ <link rel="manifest" href="manifest.webmanifest"><link rel="icon" sizes="192x192" href="assets/icon-192.png">
+ <link rel="stylesheet" href="style.css">
+ <script defer src="data.js"></script><script defer src="pdf-export.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+ <main id="app">
+  <section id="intro" class="intro" aria-label="Abertura cinematográfica">
+   <div class="intro-photo" role="img" aria-label="Capa ilustrada do sistema genital masculino em laboratório futurista"></div>
+   <div class="intro-overlay"><div class="glow-line" aria-hidden="true"></div>
+    <div class="intro-controls">
+     <button id="startBtn" class="sprite-button sprite-iniciar" type="button" aria-label="Iniciar exploração"><img src="assets/iniciar_normal.webp" alt="Iniciar exploração"></button>
+     <button id="skipBtn" class="sprite-button sprite-pular" type="button" aria-label="Pular introdução"><img src="assets/pular_normal.webp" alt="Pular introdução"></button>
+     <div class="intro-small-controls">
+      <button id="motionBtn" class="sprite-button" type="button" aria-pressed="false" aria-label="Reduzir animações"><img src="assets/reduzir_normal.webp" alt="Reduzir animações"></button>
+      <button id="accessBtn" class="sprite-button" type="button" aria-pressed="false" aria-label="Modo acessível"><img src="assets/acessivel_normal.webp" alt="Modo acessível"></button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section id="workspace" class="workspace hidden" aria-label="Roteiro prático">
+   <header class="topbar"><div class="brand"><img src="assets/icon-192.png" alt="Ícone do aplicativo"><div><span class="brand-main">ANATOMIA <em>IMMERSIVE 3D</em></span><small>ROTEIRO PRÁTICO • SISTEMA GENITAL MASCULINO</small></div></div>
+    <button id="homeBtn" class="small-outline" type="button" title="Voltar à capa"><span aria-hidden="true">⌂</span> Capa</button>
+   </header>
+   <section class="hero-text"><p class="eyebrow">UNIVERSIDADE ESTADUAL DE MARINGÁ • MEDICINA</p><h1>Sistema Genital Masculino</h1>
+    <p>Anexe quantas imagens, fotografias e arquivos desejar a cada estrutura. Selecione os itens e gere um PDF A4 com as imagens completas, sem cortes.</p>
+    <div id="status" role="status" class="status">Carregando dados locais...</div>
+   </section>
+   <section class="toolbar" aria-label="Ferramentas do roteiro">
+    <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Buscar estrutura, número ou seção" aria-label="Buscar estrutura anatômica"></label>
+    <div class="filter-wrap"><label for="sectionFilter">Seção</label><select id="sectionFilter"><option value="">Todas as seções</option></select></div>
+    <div class="quick-actions">
+     <button id="selectAll" class="small-outline" type="button">Selecionar todas</button>
+     <button id="selectNone" class="small-outline" type="button">Limpar seleção</button>
+     <button id="expandAll" class="small-outline" type="button">Expandir</button>
+     <button id="collapseAll" class="small-outline" type="button">Recolher</button>
+    </div>
+   </section>
+   <div class="stats" aria-live="polite"><span id="totalStructs">0 estruturas</span><span id="selectedStructs">0 marcadas</span><span id="totalImages">0 imagens</span><span id="selectedImages">0 imagens marcadas</span><span id="totalFiles">0 arquivos</span></div>
+   <div class="main-layout"><nav class="toc" id="toc" aria-label="Navegação entre seções"></nav><div id="sections" class="sections"></div></div>
+   <aside class="export-panel" id="exportPanel" aria-label="Gerar PDF">
+    <div><h2>Gerar PDF sem cortar imagens</h2><p>Uma imagem por página, proporcional e inteira. Os anexos não visuais ficam listados com o nome do arquivo.</p></div>
+    <div class="export-options"><label for="exportMode">O que exportar?</label><select id="exportMode"><option value="all">Todas as imagens anexadas</option><option value="marked">Somente imagens marcadas</option><option value="structure">Imagens das estruturas selecionadas</option><option value="complete">Roteiro completo (inclusive sem imagens)</option></select>
+     <button id="markAllImages" type="button" class="small-outline">Marcar todas as imagens</button>
+     <button id="unmarkAllImages" type="button" class="small-outline">Desmarcar imagens</button>
+     <button id="exportBtn" type="button" class="primary">⬇ Gerar e baixar PDF</button>
+     <button id="backupBtn" type="button" class="small-outline">⬇ Salvar backup dos anexos</button>
+     <button id="restoreBtn" type="button" class="small-outline">↥ Restaurar backup</button><input hidden type="file" id="restoreInput" accept="application/json,.json">
+     <div id="exportMessage" class="export-message" role="status" aria-live="polite"></div>
+    </div>
+   </aside>
+   <footer class="footer">Roteiro preservado conforme a fonte UEM/DCM. Item 3 do Escroto sem denominação no original. As imagens anexadas permanecem no armazenamento deste navegador até serem apagadas; mantenha cópias de segurança.</footer>
+  </section>
+ </main>
+ <dialog id="previewDialog" class="preview-dialog"><button id="closePreview" type="button" class="close-preview">✕ Fechar</button><div id="previewContent"></div></dialog>
+ <template id="entryTemplate"><article class="entry"><div class="entry-head"><label class="entry-select"><input type="checkbox" class="structure-check" aria-label="Selecionar estrutura para PDF"></label><button class="entry-open" type="button" aria-expanded="false"><span class="structure-num"></span><span class="structure-name"></span><span class="entry-count"></span><span class="arrow" aria-hidden="true">⌄</span></button></div><div class="entry-body" hidden>
+  <div class="entry-actions"><label class="attach-button">📷 Tirar foto<input class="camera-input" type="file" accept="image/*" capture="environment" hidden></label><label class="attach-button">＋ Adicionar imagens<input class="images-input" type="file" accept="image/*" multiple hidden></label><label class="attach-button secondary">📎 Adicionar arquivos<input class="files-input" type="file" multiple hidden></label></div>
+  <label class="notes-label">Anotações sobre a estrutura<textarea class="notes" rows="2" placeholder="Observações de aula, vista anatômica, identificação..."></textarea></label>
+  <div class="media-grid"></div><div class="attachments"></div>
+ </div></article></template>
+</body>
+</html>
